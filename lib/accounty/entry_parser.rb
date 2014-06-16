@@ -1,3 +1,5 @@
+require_relative 'entry'
+
 module Accounty
   class EntryParser
     def initialize(entry)
@@ -6,26 +8,24 @@ module Accounty
 
     def call
       segments = Hash.new { |h, k| h[k] = [] }
-      character_map = {
-        ' _ | ||_|' => 0,
-        '     |  |' => 1,
-        ' _  _||_ ' => 2,
-        ' _  _| _|' => 3,
-        '   |_|  |' => 4,
-        ' _ |_  _|' => 5,
-        ' _ |_ |_|' => 6,
-        ' _   |  |' => 7,
-        ' _ |_||_|' => 8,
-        ' _ |_| _|' => 9,
-      }
 
-      @entry.take(3).each do |row|
-        row.chars.take(27).each_slice(3).with_index do |*cells, key|
+      entry_rows.each do |row|
+        row_cells(row).each do |*cells, key|
           segments[key].concat(cells.flatten)
         end
       end
 
-      segments.collect { |_, cells| character_map[cells.join] }.join
+      segments.collect { |_, cells| Entry::CHARACTER_MAP[cells.join] }.join
+    end
+
+    private
+
+    def entry_rows
+      @entry.take(Entry::CELL_HEIGHT)
+    end
+
+    def row_cells(row)
+      row.chars.take(Entry::ROW_WIDTH).each_slice(Entry::CELL_WIDTH).with_index
     end
   end
 end
