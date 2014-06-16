@@ -1,10 +1,14 @@
 module Accounty
   module Entry
+    class InvalidFormat < StandardError; end
+
     CELL_WIDTH = 3
 
     CELL_HEIGHT = 3
 
     ROW_WIDTH = 27
+
+    ROW_COUNT = 4
 
     ZERO_CHAR  = ' _ ' \
                  '| |' \
