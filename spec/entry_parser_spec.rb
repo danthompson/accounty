@@ -17,6 +17,18 @@ module Accounty
         assert_equal('123456789', parser.call)
       end
 
+      it 'returns an account number with markers for unrecognized segments' do
+        expected = "86110%%36".gsub(/%/, Entry::UNRECOGNIZED_SEGMENT_CHAR)
+        entry = [ " _  _        _     _  _  _ ",
+                  "|_||_   |  || || |  | _||_ ",
+                  "|_||_|  |  ||_|  | _| _||_|",
+                  "                           ", ]
+
+        account_number = EntryParser.new(entry).call
+
+        assert_equal(expected, account_number)
+      end
+
       it 'raises an exception for incorrect row count' do
         entry = [ "  | _| _||_||_ |_   ||_||_|",
                   "  ||_  _|  | _||_|  ||_| _|",

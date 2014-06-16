@@ -16,7 +16,18 @@ module Accounty
     end
 
     def status
-      'INV' unless NumberChecksum.new(value).valid?
+      case
+      when illegible? then 'ILL'
+      when invalid?   then 'ERR'
+      end
+    end
+
+    def illegible?
+      !!(value =~ /\?/)
+    end
+
+    def invalid?
+      !NumberChecksum.new(value).valid?
     end
   end
 end

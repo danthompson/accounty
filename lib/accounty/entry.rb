@@ -10,6 +10,8 @@ module Accounty
 
     ROW_COUNT = 4
 
+    UNRECOGNIZED_SEGMENT_CHAR = '?'
+
     ZERO_CHAR  = ' _ ' \
                  '| |' \
                  '|_|'.freeze

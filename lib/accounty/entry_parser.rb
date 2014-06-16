@@ -17,7 +17,9 @@ module Accounty
         end
       end
 
-      segments.collect { |_, cells| Entry::CHARACTER_MAP[cells.join] }.join
+      segments.collect do |_, cells|
+        Entry::CHARACTER_MAP.fetch(cells.join, Entry::UNRECOGNIZED_SEGMENT_CHAR)
+      end.join
     end
 
     private
