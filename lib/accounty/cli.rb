@@ -3,6 +3,11 @@ require_relative 'entry_parser'
 
 module Accounty
   class CLI
+    def self.run(input, output)
+      cli = new(input, output)
+      cli.run
+    end
+
     def initialize(input, output)
       @input = input
       @output = output
