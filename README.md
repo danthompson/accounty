@@ -51,6 +51,15 @@ $ 456789123
 $ 789123456
 ```
 
+#### Errors
+
+If an error is encountered the program will stop, and report what file, and
+line number the error has occurred at.
+
+```
+ERROR: Missing last row marker for entry: [spec/fixtures/entries.txt:123]
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/danthompson/accounty/fork )

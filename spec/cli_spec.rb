@@ -39,7 +39,33 @@ module Accounty
 
         assert_equal("123456789\n987654321\n", output.read)
       end
-    end
+
+      it 'writes an error message to the screen upon failure' do
+        input = StringIO.new
+        input << "    _  _  _  _  _     _  _ \n"
+        input << "  | _||_|  ||_| _|  ||_  _|\n"
+        input << "                           \n"
+        input.rewind
+
+        begin
+          CLI.new(input, output).run
+        rescue SystemExit
+        end
+
+        output.rewind
+
+        assert_match(/error/i, output.read)
+      end
+
+      it 'exits upon failure' do
+        input = StringIO.new
+        input << "    _  _  _  _  _     _  _ \n"
+        input << "  | _||_|  ||_| _|  ||_  _|\n"
+        input << "                           \n"
+        input.rewind
+
+        assert_raises(SystemExit) { CLI.new(input, output).run }
+      end   end
   end
 
 end

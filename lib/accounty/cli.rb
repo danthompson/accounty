@@ -19,7 +19,21 @@ module Accounty
         account_number = EntryParser.new(entry).call
 
         @output.puts(account_number)
+
       end
+    rescue Entry::InvalidFormat => ex
+      @output.puts("ERROR: #{ex.message}: [#{filename}:#{lineno}]")
+      exit(1)
+    end
+
+    private
+
+    def filename
+      @input.filename if @input.respond_to?(:filename)
+    end
+
+    def lineno
+      @input.file.lineno if @input.respond_to?(:file)
     end
   end
 end
