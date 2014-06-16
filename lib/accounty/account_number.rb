@@ -1,3 +1,4 @@
+require_relative 'entry'
 require_relative 'entry_parser'
 require_relative 'number_checksum'
 
@@ -23,7 +24,8 @@ module Accounty
     end
 
     def illegible?
-      !!(value =~ /\?/)
+      marker = Regexp.escape(Entry::UNRECOGNIZED_SEGMENT_CHAR)
+      !!(value =~ /#{marker}/)
     end
 
     def invalid?
