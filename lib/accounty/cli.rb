@@ -1,3 +1,5 @@
+require 'pathname'
+
 require_relative 'entry'
 require_relative 'account_number'
 
@@ -14,11 +16,19 @@ module Accounty
     end
 
     def run
-      @input.each_slice(Entry::ROW_COUNT) do |slice|
-        entry = slice.map!(&:chomp)
-        account_number = AccountNumber.new(entry)
+      @input.each do |file|
+        next unless Pathname(file).exist?
 
-        @output.puts(account_number.report)
+        Pathname(file).open('r') do |entry_file|
+          entry_file.each_slice(Entry::ROW_COUNT).with_index do |slice, index|
+            capture_input_stats(file, index)
+
+            entry = slice.map!(&:chomp)
+            account_number = AccountNumber.new(entry)
+
+            @output.puts(account_number.report)
+          end
+        end
 
       end
     rescue Entry::InvalidFormat => ex
@@ -28,12 +38,11 @@ module Accounty
 
     private
 
-    def filename
-      @input.filename if @input.respond_to?(:filename)
-    end
+    attr_accessor :filename, :lineno
 
-    def lineno
-      @input.file.lineno if @input.respond_to?(:file)
+    def capture_input_stats(file, index)
+      self.filename = file
+      self.lineno = (index * Entry::ROW_COUNT) + 1
     end
   end
 end

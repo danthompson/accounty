@@ -40,6 +40,10 @@ Given the file `entries.txt` containing:
   ||_||_|  | _| _||_||_ |_ 
   ||_| _|  ||_  _|  | _||_|
                            
+ _  _        _     _  _  _ 
+|_||_   |  || || |  | _||_ 
+|_||_|  |  ||_|  | _| _||_|
+                           
 ```
 
 Executing `accounty` as below returns the parsed account numbers:
@@ -47,8 +51,18 @@ Executing `accounty` as below returns the parsed account numbers:
 ```
 $ accounty entries.txt
 $ 123456789
-$ 456789123 INV
-$ 789123456 INV
+$ 456789123 ERR
+$ 789123456 ERR
+$ 86110??36 ILL
+```
+
+#### Multiple files
+
+To parse more than one file at a time, simply list them:
+
+```
+$ accounty entries-1.txt entries-2.txt
+$ ...
 ```
 
 #### Errors
