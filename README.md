@@ -47,8 +47,8 @@ Executing `accounty` as below returns the parsed account numbers:
 ```
 $ accounty entries.txt
 $ 123456789
-$ 456789123
-$ 789123456
+$ 456789123 INV
+$ 789123456 INV
 ```
 
 #### Errors

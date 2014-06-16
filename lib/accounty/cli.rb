@@ -1,5 +1,5 @@
 require_relative 'entry'
-require_relative 'entry_parser'
+require_relative 'account_number'
 
 module Accounty
   class CLI
@@ -16,9 +16,9 @@ module Accounty
     def run
       @input.each_slice(Entry::ROW_COUNT) do |slice|
         entry = slice.map!(&:chomp)
-        account_number = EntryParser.new(entry).call
+        account_number = AccountNumber.new(entry)
 
-        @output.puts(account_number)
+        @output.puts(account_number.report)
 
       end
     rescue Entry::InvalidFormat => ex
