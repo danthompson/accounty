@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Accounty::VERSION
   spec.authors       = ["Dan Thompson"]
   spec.email         = ["dwthompson@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = "A program to take an entry file, and parse it into actual account numbers."
+  spec.homepage      = "https://github.com/danthompson/accounty"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
