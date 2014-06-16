@@ -5,14 +5,15 @@ require_relative 'account_number'
 
 module Accounty
   class CLI
-    def self.run(input, output)
-      cli = new(input, output)
+    def self.run(input, output, working_dir = '')
+      cli = new(input, output, working_dir)
       cli.run
     end
 
-    def initialize(input, output)
+    def initialize(input, output, working_dir = '')
       @input = input
       @output = output
+      @working_dir = working_dir
     end
 
     def run
@@ -20,13 +21,16 @@ module Accounty
         next unless Pathname(file).exist?
 
         Pathname(file).open('r') do |entry_file|
-          entry_file.each_slice(Entry::ROW_COUNT).with_index do |slice, index|
-            capture_input_stats(file, index)
+          Pathname(report_filename(entry_file)).open('a') do |report_file|
+            entry_file.each_slice(Entry::ROW_COUNT).with_index do |slice, index|
+              capture_input_stats(file, index)
 
-            entry = slice.map!(&:chomp)
-            account_number = AccountNumber.new(entry)
+              entry = slice.map!(&:chomp)
+              report = AccountNumber.new(entry).report
 
-            @output.puts(account_number.report)
+              report_file.puts(report)
+              @output.puts(report)
+            end
           end
         end
 
@@ -43,6 +47,13 @@ module Accounty
     def capture_input_stats(file, index)
       self.filename = file
       self.lineno = (index * Entry::ROW_COUNT) + 1
+    end
+
+    def report_filename(original_filename)
+      file = Pathname(original_filename)
+      new_filename = "#{file.basename('.*')}-report#{file.extname}"
+
+      Pathname(@working_dir).join(new_filename)
     end
   end
 end

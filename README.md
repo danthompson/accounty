@@ -56,6 +56,10 @@ $ 789123456 ERR
 $ 86110??36 ILL
 ```
 
+As well as generating a report file `entries-report.txt` containing the
+account numbers parsed within that entries file. Each entries file gets its
+own report file.
+
 #### Multiple files
 
 To parse more than one file at a time, simply list them:
